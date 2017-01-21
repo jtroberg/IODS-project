@@ -1,0 +1,3 @@
+**This course seems interesting!** It is good that we have every week these challenging assignments encouraging us to *learn and practice* the use of the R language.
+
+[Link to Johanna's github repository](https://jtroberg.github.io/IODS-project/)
