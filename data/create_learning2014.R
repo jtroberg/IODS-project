@@ -44,4 +44,5 @@ write.table(analysis_dataset, file="learning2014.txt")
 
 #Checking that txt file can be read and same dimensions are present (=166 and 7)
 testing_txt<-read.table("learning2014.txt")
-dim(testing_txt)
+str(testing_txt)
+head(testing_txt)
