@@ -6,3 +6,10 @@ The introduction to open data science course (IODS) will give us students an opp
 [Johanna's github repository](https://github.com/jtroberg/IODS-project/)
 
 
+# Week 1 
+
+The R programming code and the tools we are using during this course are all new to me. I have little background in statistics, but I took those courses long time ago, so I don't remember much about that topic either. In addition, I am a new mac user with very limited computer handling skills, so during this first week I have had some extra work trying to solve beginner's issues such as how to download and install programs etc. Luckily there was a good amount of instructions available in the IODS-course page, including videos, so everything should be now installed and working, at least I hope so. 
+
+- The first week's first assignment was to learn the very basics about the R programming language by using the **DataCamp** platform and passing the R introduction course: *R short and sweet*. This DataCamp course was actually straightforward and easy to pass if one was reading instructions carefully. Passing this took me quite a long time (because everything was so new to me, I had to read instructions more than once), but I had such fun studying through this short course, that I felt little sad as it ended after two chapters. 
+
+- The other assignment for the week was to learn to use **Rstudio** and **Github** programs, by writing and modifying the output of this diary page. To do that I had to download my "forked" version of the course datafile and open them with my local GitHub program. After that I was able to modify the files in the Rstudio and comment the changes through the GitHub. 
