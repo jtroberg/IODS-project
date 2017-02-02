@@ -121,16 +121,18 @@ $(document).ready(function () {
 
 <div id="week-2" class="section level1">
 <h1>Week 2</h1>
-<pre class="r"><code># Reading the data into R (students2014) from the  local data wrangling file (learning2014.txt). Setting field separator and the header=TRUE because file contains the names of the variables as its first line.
+<p>In this week’s R exercise we are making the regression analysis from the questionare data about students’ learning methods (deep and surface learning) and attitudes toward the learning progress and study subject. The answers are scaled and combined together with final exam points, overall attitudes toward statistics, gender and age. Before the analysis, we did data wrangling step (where the data table is converted into different type of file), and in this step the data was already filtered so that those answers that got 0 points are left out from the data table.</p>
+<p>This means that the data table has seven different variables. The first variable is gender, which can be either female or male. The next one is age, and it is answered by integer value, as well as question about attitude. Also the exam points are integers in the table. However, the points coming from questions about learning (surface, strategic, deep) are done in a way that they score numbers which are then averaged into single values. In order to compare these factors, we might need to progress the data more before actual analysis.</p>
+<pre class="r"><code># Reading the data into R (students2014) from the  local data wrangling file (learning2014.txt). Setting the header=TRUE because file contains the names of the variables as its first line.
 
 students2014&lt;-read.table(&quot;~/Tiedostot_J/IODS-project/data/learning2014.txt&quot;, header=TRUE)
 
-#Analysis of the data (structure, dimensions and headings)
+#Analysis of the data (structure, dimensions and headings) Explore the structure and the dimensions of the data and describe the dataset briefly, assuming the reader has no previous knowledge of it.
 str(students2014)</code></pre>
 <pre><code>## 'data.frame':    166 obs. of  7 variables:
 ##  $ gender  : Factor w/ 2 levels &quot;F&quot;,&quot;M&quot;: 1 2 1 2 2 1 2 1 2 1 ...
 ##  $ Age     : int  53 55 49 53 49 38 50 37 37 42 ...
-##  $ Attitude: int  37 31 25 35 37 38 35 29 38 21 ...
+##  $ attitude: num  3.7 3.1 2.5 3.5 3.7 3.8 3.5 2.9 3.8 2.1 ...
 ##  $ deep    : num  3.58 2.92 3.5 3.5 3.67 ...
 ##  $ stra    : num  3.38 2.75 3.62 3.12 3.62 ...
 ##  $ surf    : num  2.58 3.17 2.25 2.25 2.83 ...
@@ -138,13 +140,15 @@ str(students2014)</code></pre>
 <pre class="r"><code>dim(students2014)</code></pre>
 <pre><code>## [1] 166   7</code></pre>
 <pre class="r"><code>head(students2014)</code></pre>
-<pre><code>##   gender Age Attitude     deep  stra     surf Points
-## 1      F  53       37 3.583333 3.375 2.583333     25
-## 2      M  55       31 2.916667 2.750 3.166667     12
-## 3      F  49       25 3.500000 3.625 2.250000     24
-## 4      M  53       35 3.500000 3.125 2.250000     10
-## 5      M  49       37 3.666667 3.625 2.833333     22
-## 6      F  38       38 4.750000 3.625 2.416667     21</code></pre>
+<pre><code>##   gender Age attitude     deep  stra     surf Points
+## 1      F  53      3.7 3.583333 3.375 2.583333     25
+## 2      M  55      3.1 2.916667 2.750 3.166667     12
+## 3      F  49      2.5 3.500000 3.625 2.250000     24
+## 4      M  53      3.5 3.500000 3.125 2.250000     10
+## 5      M  49      3.7 3.666667 3.625 2.833333     22
+## 6      F  38      3.8 4.750000 3.625 2.416667     21</code></pre>
+<pre class="r"><code>print(students2014$Attitude)</code></pre>
+<pre><code>## NULL</code></pre>
 </div>
 
 
