@@ -33,3 +33,24 @@ str(math_por); dim(math_por)
 
 # The combined data file has now 382 objects and 53 variables. The number of variables is increased, because we have now the same questions but from two different
 # sources. So if we had 33+33 questions in the beginning, we told that 13 of them are identifiers what makes 33+33-13=53.
+
+# To combine the duplicate answers from the joined data if-else structure is used. If the answer for question is numeric, a mean value is taken, but if it is a factor, the first answer will be picked and another one ignored.
+
+# First starting new combined data set named alc. First the joined columns are put here.
+alc <-select(math_por, one_of(join_by))
+
+# Calling the not joined columns for combination (then making for them for if-else structure)
+notjoined_columns<-colnames(math)[!colnames(math)%in%join_by]
+for(column_name in notjoined_columns){
+  # select 2 columns with combined data file with same original name
+  two_columns<-select(math_por, starts_with (column_name))
+  # select first column vector of two columns
+  first_column<-select(two_columns, 1)[[1]]
+  #if it is numeric...
+  if (is.numeric(first_column)){
+    #...take an average of each row and add it to data frame,
+    alc[column_name]<-round(rowMeans(two_columns))
+  # else if not numeric, add the first column vector to data frame.
+    }else{alc[column_name]<-first_column}}
+glimpse(alc)    
+  }
