@@ -11,7 +11,7 @@ library(dplyr)
 
 # Because some of the data is not yet in the final form, the deep, surface and strategic learning questions need to be combined. 
 
-deep_questions <- c("D03", "D11", "D19", "D27", "D07", "D14", "D22", "D30","D06", "D15", "D23", "D31")
+deep_questions <- c("D03", "D11", "D19", "D27", "D07", "D14", "D22", "D30","D06",  "D15", "D23", "D31")
 surface_questions <- c("SU02","SU10","SU18","SU26", "SU05","SU13","SU21","SU29","SU08","SU16","SU24","SU32")
 strategic_questions <- c("ST01","ST09","ST17","ST25","ST04","ST12","ST20","ST28")
 
@@ -26,27 +26,15 @@ learning2014$surf <- rowMeans(surface_columns)
 strategic_columns <- select(learning2014, one_of(strategic_questions))
 learning2014$stra <- rowMeans(strategic_columns)
 
-#Because attitude toward statistics is formed from multiple questions (Da+Db+Dc+Dd+De+Df+Dg+Dh+Di+Dj) the average value should be divided by the number of questions (=10).
-#At the same time the Attitude is corrected to attitude in the column name
-learning2014$attitude<-learning2014$Attitude/10
-
-
-
 #Choosing what columns are kept for analysis dataset
-keep_columns<-c("gender","Age","attitude", "deep", "stra", "surf", "Points")
+keep_columns<-c("gender","Age","Attitude", "deep", "stra", "surf", "Points")
 
 #Creating analysis dataset that includes gender, age, attitude, deep, stra, surf and points.
 analysis_dataset <- select(learning2014, one_of(keep_columns))
 str(analysis_dataset)
 
-# changing the name of the Age column into age
-colnames(analysis_dataset)[2] <- "age"
-
-# changing the name of Points into points
-colnames(analysis_dataset)[7]<- "points"
-
 #Exclude observations where the exam points variable is 0.
-analysis_dataset<-filter(analysis_dataset, points>0)
+analysis_dataset<-filter(analysis_dataset, Points>0)
 
 #analysis of the dimensions of the filtered dataset.
 dim(analysis_dataset)
