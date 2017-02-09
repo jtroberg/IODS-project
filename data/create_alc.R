@@ -14,3 +14,5 @@ str(por)
 dim(por)
 
 #There are 395 objects and 33 variables in the math-file. Most of the variables are integers, but some are factors (answered by no/yes).
+#There are 649 objects and 33 variables in the por-file. The questions are the same than in mat, but there are more students answering to questionare in this datafile. 
+
