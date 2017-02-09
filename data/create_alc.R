@@ -52,5 +52,10 @@ for(column_name in notjoined_columns){
     alc[column_name]<-round(rowMeans(two_columns))
   # else if not numeric, add the first column vector to data frame.
     }else{alc[column_name]<-first_column}}
-glimpse(alc)    
-  }
+
+# Make a new column (alc_use) in joined data (alc) about average of the answers of weekday and weekend alcohol consumption.
+alc<-mutate(alc, alc_use=(Dalc+Walc)/2)
+
+# Make new logical column (high_use) in joined data (alc), what is TRUE for those which alc_use is >2 
+alc<-mutate(alc, high_use=alc_use>2)
+
