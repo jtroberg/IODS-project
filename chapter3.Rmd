@@ -5,7 +5,7 @@ The data for this week's analysis is from the UCI Machine Learning Repository:
 
 The data has 33 different variables (questions). Many variables are binary values, such as school, which is answered by the student either as GP (Gabriel Pereira) or MS (Mousinho da Silveira). Also family size is binary: LE3 is less or equal to 3, GT3 is greater than 3. Some binary variables are just answered either yes or no. There are some other variables that are answered by number, such as age that is answered by integer, number from 15-22. Also some questions are answered nominally, such as mother's job. In the end there is G1, G2 and G3, which are the numeric grades from periods 1, 2 and the final grade from student's course subject, Math or Portuguese. There are many background questions and questions related to studying, but also questions about alcohol consumption during the workdays and weekends.
 
-The largest difference from the original data and the data table presented here (Table 1) is the two extra columns we have added here after grade variables, which are about alcohol use and high use of alcohol. The alcohol use combines the two original questions Dalc (workday alcohol consumption) and Walc (weekend alcohol consumption), which were estimated in numbers from 1-5, 1 beeing low use and 5 high, and gives an average of those. The high use is true for students whose combined alcohol use was more than 2. So in our data table we have 35 variables instead of 33 original ones. Also the data has been modified in the data wrangling the two different questionnaires have been merged to one, combining the data files and excluding the possible duplicate answers if one student has taken both questionnaires.
+The largest difference from the original data and the data table presented here (Table 1) is the two extra columns we have added here after grade variables, which are about alcohol use and high use of alcohol. The alcohol use combines the two original questions Dalc (workday alcohol consumption) and Walc (weekend alcohol consumption), which were estimated in numbers from 1-5, 1 being low use and 5 high, and gives an average of those. The high use is true for students whose combined alcohol use was more than 2. So in our data table we have 35 variables instead of 33 original ones. Also the data has been modified in the data wrangling the two different questionnaires have been merged to one, combining the data files and excluding the possible duplicate answers if one student has taken both questionnaires.
 
 
 **Table 1.** Variables in the combined data file.
@@ -15,13 +15,94 @@ alc<-read.table("~/Tiedostot_J/IODS-project/data/alc.txt", sep="", header=TRUE)
 colnames(alc)
 ```
 
-The purpose of our analysis is to study relationships between some variables in the data set and alcohol consumption. For this purpose, I have chosen four variables that could have been effected by how much student is using alcohol in his/her life. Two variables are likely to be positively affected by low alcohol consumption and values of two variables should increase if the student consumes more alcohol. The low alcohol consumption could possible increase the quality of family relationships (famrel) and weekly study time (studytime). The high alcohol consumption could have an effect on amounts of failures in past classes (failures) and free time after school (freetime). So, I have chosen the following four variables for further analysis:
+The purpose of our analysis is to study relationships between some variables in the data set and alcohol consumption. For this purpose, I have chosen four variables that could have been effected by how much student is using alcohol in his/her life. Two variables are likely to be positively affected by low alcohol consumption and values of two variables should increase if the student consumes more alcohol. The low alcohol consumption could possible increase the quality of family relationships and weekly study time. The high alcohol consumption could have an effect on amounts of absences in school and going out more often with friends. So, I have chosen the following four variables for further analysis:
 
 - Quality of family relationships ("famrel", from 1 - very bad to 5 - excellent) 
 - Weekly study time ("studytime", 1 - <2 hours, 2 - 2 to 5 hours, 3 - 5 to 10 hours, or 4 - >10 hours)
-- Number of past class failures ("failures", n if 1<=n<3, else 4)*
-- Freetime after school ("freetime", from 1 - very low to 5 - very high) 
+- Going out with friends ("goout", from 1 - very low to 5 - very high)  
+- Number of school absences ("absences", from 0 to 93) 
+
+These variables will be analyzed with high usage of alcohol, so the first graph should show low relationship with family when students are using high amounts of alcohol (TRUE in the graph), another should be also lower than for the students not using high amounts of alcohol (FALSE). In the two last figures it should be other way around, for high alcohol consumption the box should be higher than for low alcohol consumers. 
+
+In the **data table 1** there is the number of those students who are consuming higher amounts of alcohol (high alcohol consumption = TRUE) and those who are consuming less (high alcohol consumption = FALSE). In the **data table 2** there are the mean values of family relationships in the high alcohol consuming group (TRUE) and less alcohol consuming group (FALSE).
+
+**Boxplot 1.** An effect of student's alcohol consumption on family relationships. 
+```{r}
+#access to libraries tidyr, dplyr and ggplot2. Had to suppress dplyr startupmessage.
+suppressPackageStartupMessages({
+library("dplyr")
+})
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+# produce summary statistics by group. How many from students are in the high alcohol consumption group?
+alc %>% group_by(high_use) %>% summarise(count = n())
+
+# What is the mean value of family relationship values in low consumer's group?
+alc %>% group_by(high_use) %>% summarise(mean_grade=mean(famrel))
+
+# initialize a box plot of high_use and famrel, studytime, goout and absences.
+g1<-ggplot(alc, aes(x=high_use, y=famrel))
+
+# define the plot as a boxplot and draw it
+g1 + geom_boxplot() + ylab("Quality of family relationships")+xlab("Consumes high amounts of alcohol")+ggtitle("Effect of student's alcohol consumption on his/her family relationships")
+
+```
+
+So it seems that the alcohol consumption possibly very small effect on quality of the family relationships. For those who did not use high amounts of alcohol estimated their family relationships to 4.0 (average) and those who used high amounts, the average value was 3.8.
+
+In the **data table 3** there are the mean values of the time the students are using in the high alcohol consuming group (TRUE) and less alcohol consuming group (FALSE).
+
+**Boxplot 2.** An effect of student's alcohol consumption on time used studying. 
+
+```{r}
+#access to libraries tidyr, dplyr and ggplot2.
+library(tidyr); library(dplyr); library(ggplot2)
+
+# What is the mean time used for studies in high/low consumer's group?
+alc %>% group_by(high_use) %>% summarise(mean_grade=mean(studytime))
+
+g2<-ggplot(alc, aes(x=high_use, y=studytime))
+g2 + geom_boxplot() + ylab("Weekly study time")+xlab("Consumes high amounts of alcohol")+ggtitle("Effect of student's alcohol consumption on his/her study time")
+```
+
+The average study time in the group  of low alcohol consumers was 2.1 hour, when it was 1.8 in the high amount consumer group. Again it seemed to have a small effect as was suspected.
+
+In the **data table 4** there are the mean values of the time the students are spending out with their friends in the high alcohol consuming group (TRUE) and less alcohol consuming group (FALSE).
+
+**Boxplot 3.** An effect of student's alcohol consumption on time spended out with their friends. 
 
 
+```{r}
+#access to libraries tidyr, dplyr and ggplot2.
+library(tidyr); library(dplyr); library(ggplot2)
+
+# What is the going out with friends in high/low consumer's group?
+alc %>% group_by(high_use) %>% summarise(mean_grade=mean(goout))
+
+g3<-ggplot(alc, aes(x=high_use, y=goout)) 
+g3 + geom_boxplot() + ylab("Go out with friends")+xlab("Consumes high amounts of alcohol")+ggtitle("Effect of student's alcohol consumption on going out with friends")
+```
+ 
+Again it seems to have small logic, those who consume alcohol more, tend to spend more time out with their friends. So this time the TRUE group had higher points than the FALSE group (2.9 vs 3.7).
+
+In the **data table 5** there are the mean values of the times they have been absent from the class with the same groups as previously (TRUE or FALSE on high alcohol consumption).
+
+**Boxplot 4.** An effect of student's alcohol consumption on times of absence from school.
 
 
+```{r}
+#access to libraries tidyr, dplyr and ggplot2.
+library(tidyr); library(dplyr); library(ggplot2)
+
+# What is the going out with friends in high/low consumer's group?
+alc %>% group_by(high_use) %>% summarise(mean_grade=mean(absences))
+
+g4<-ggplot(alc, aes(x=high_use, y=absences))
+g4 + geom_boxplot() + ylab("Number of school absences")+xlab("Consumes high amounts of alcohol")+ggtitle("Effect of student's alcohol consumption on school absences")
+
+```
+
+
+So it seems that alcohol consumption had the highest impact on the absence from school. The group of high alcohol usage had been on average more than 6 times away from the school, whereas the other group was away less than 4 times on average.
