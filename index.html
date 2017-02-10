@@ -270,7 +270,20 @@ plot(my_model, which=c(1:2,5))</code></pre>
 </div>
 <div id="week-3" class="section level1">
 <h1>Week 3</h1>
-<p>Create a new RMarkdown file and save it as an empty file named ‘chapter3.Rmd’. Then include the file as a child file in your ‘index.Rmd’ file (similarily to ‘chapter1.Rmd’ and ‘chapter2.Rmd’). Perform the following analysis in the chapter3.Rmd file.</p>
+<p>The data for this week’s analysis is from the UCI Machine Learning Repository: <a href="https://archive.ics.uci.edu/ml/datasets/STUDENT+ALCOHOL+CONSUMPTION">link to the data source</a>.</p>
+<p>The data has 33 different variables (questions). Many variables are binary values, such as school, which is answered by the student either as GP (Gabriel Pereira) or MS (Mousinho da Silveira). Also family size is binary: LE3 is less or equal to 3, GT3 is greater than 3. There are some other variables that are answered by number, such as age that is answered by integer, number from 15-22. In the end there is G1, G2 and G3, which are the numeric grades from periods 1, 2 and the final grade from student’s course subject, Math or Portuguese. There are many background questions and questions related to studying, but also questions about alcohol consumption during the workdays and weekends.</p>
+<p>The largest difference from the original data and the data table presented here (Table 1) is the two extra columns we have added here after grade variables, which are about alcohol use and high use of alcohol. The alcohol use combines the two original questions Dalc (workday alcohol consumption) and Walc (weekend alcohol consumption), which were estimated from 1-5, 1 beeing low use and 5 high, and gives an average of those. The high use is true for students whose combined alcohol use was more than 2. So in our data table we have 35 variables instead of 33 original ones. Also the data has been modified in the data wrangling the two different questionnaires have been merged to one, combining the data and excluding the possible duplicate answers if one student has taken both questionnaires.</p>
+<p><strong>Table 1.</strong> Variables in the combined data file.</p>
+<pre class="r"><code>alc&lt;-read.table(&quot;~/Tiedostot_J/IODS-project/data/alc.txt&quot;, sep=&quot;&quot;, header=TRUE)
+
+colnames(alc)</code></pre>
+<pre><code>##  [1] &quot;school&quot;     &quot;sex&quot;        &quot;age&quot;        &quot;address&quot;    &quot;famsize&quot;   
+##  [6] &quot;Pstatus&quot;    &quot;Medu&quot;       &quot;Fedu&quot;       &quot;Mjob&quot;       &quot;Fjob&quot;      
+## [11] &quot;reason&quot;     &quot;nursery&quot;    &quot;internet&quot;   &quot;guardian&quot;   &quot;traveltime&quot;
+## [16] &quot;studytime&quot;  &quot;failures&quot;   &quot;schoolsup&quot;  &quot;famsup&quot;     &quot;paid&quot;      
+## [21] &quot;activities&quot; &quot;higher&quot;     &quot;romantic&quot;   &quot;famrel&quot;     &quot;freetime&quot;  
+## [26] &quot;goout&quot;      &quot;Dalc&quot;       &quot;Walc&quot;       &quot;health&quot;     &quot;absences&quot;  
+## [31] &quot;G1&quot;         &quot;G2&quot;         &quot;G3&quot;         &quot;alc_use&quot;    &quot;high_use&quot;</code></pre>
 <hr />
 </div>
 

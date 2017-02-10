@@ -1,3 +1,20 @@
 # Week 3
-Create a new RMarkdown file and save it as an empty file named 'chapter3.Rmd'. Then include the file as a child file in your 'index.Rmd' file (similarily to 'chapter1.Rmd' and 'chapter2.Rmd'). Perform the following analysis in the chapter3.Rmd file.
+
+The data for this week's analysis is from the UCI Machine Learning Repository:
+[link to the data source](https://archive.ics.uci.edu/ml/datasets/STUDENT+ALCOHOL+CONSUMPTION). 
+
+The data has 33 different variables (questions). Many variables are binary values, such as school, which is answered by the student either as GP (Gabriel Pereira) or MS (Mousinho da Silveira). Also family size is binary: LE3 is less or equal to 3, GT3 is greater than 3. There are some other variables that are answered by number, such as age that is answered by integer, number from 15-22. In the end there is G1, G2 and G3, which are the numeric grades from periods 1, 2 and the final grade from student's course subject, Math or Portuguese. There are many background questions and questions related to studying, but also questions about alcohol consumption during the workdays and weekends.
+
+The largest difference from the original data and the data table presented here (Table 1) is the two extra columns we have added here after grade variables, which are about alcohol use and high use of alcohol. The alcohol use combines the two original questions Dalc (workday alcohol consumption) and Walc (weekend alcohol consumption), which were estimated from 1-5, 1 beeing low use and 5 high, and gives an average of those. The high use is true for students whose combined alcohol use was more than 2. So in our data table we have 35 variables instead of 33 original ones. Also the data has been modified in the data wrangling the two different questionnaires have been merged to one, combining the data and excluding the possible duplicate answers if one student has taken both questionnaires.
+
+
+**Table 1.** Variables in the combined data file.
+```{r}
+alc<-read.table("~/Tiedostot_J/IODS-project/data/alc.txt", sep="", header=TRUE)
+
+colnames(alc)
+```
+
+
+
 
