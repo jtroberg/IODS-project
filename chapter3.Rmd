@@ -106,3 +106,64 @@ g4 + geom_boxplot() + ylab("Number of school absences")+xlab("Consumes high amou
 
 
 So it seems that alcohol consumption had the highest impact on the absence from school. The group of high alcohol usage had been on average more than 6 times away from the school, whereas the other group was away less than 4 times on average.
+
+
+Then the the relationships between the chosen variables and binary high/low alcohol consumption is explored statistically by logistic regression.
+
+**Table 6.** The summary of fitted model and **Table 7.** the coefficients of the model.
+
+```{r}
+m<-glm(high_use~famrel+studytime+goout+absences, data=alc, family="binomial")
+summary(m)
+coef(m)
+```
+
+
+Also the logistic regression and coefficients of the model backs up the previous analysis. Coefficients are positive with the last two variables (goout and absences) but negative with the first ones (famrel) and (studytime).
+
+Next the oddsratios and confidential intervals for the model are computed (**Table 8**). 
+
+```{r}
+#compute oddratios and confidential intervals
+OR<-coef(m)%>%exp
+CI<-confint(m)%>%exp
+#Print these out together
+cbind(OR,CI)
+```
+
+Finally we are testing the predictive power of the model by 2x2 cross tabulation of predictions versus the actual values and predictions. 
+
+```{r}
+#predict the probability of high_use
+probabilities<-predict(m, type="response")
+
+#add the predicted probabilities to alc
+alc<-mutate(alc, probability=probabilities)
+
+#use the probabilities to make a prediction of high use
+alc<-mutate(alc, prediction=probability>0.5)
+
+#Tabulate the target variable vs the predictions
+table(high_use=alc$high_use, prediction=alc$prediction)
+
+#Initialize a plot of high use vs probability in alc
+g<-ggplot(alc, aes(x=probability, y=high_use, col=prediction))
+
+#Define the geom as point and draw the plot
+g+geom_point()
+
+#Tabulate the target variable vs the predictions
+table(high_use=alc$high_use, prediction=alc$prediction)%>% prop.table()%>%addmargins()
+```
+
+Lastly, the total proportion of of inaccurately classified individuals (= the training error) is presented in the table below. 
+
+```{r}
+#define mean prediction error
+loss_func<-function(class, prob){
+  n_wrong<-abs(class-prob)>0.5
+  mean(n_wrong)
+}
+#Call loss_func to cumpute the average number of wrong predictions 
+loss_func(class=alc$high_use, prob=alc$probability)
+```
