@@ -59,3 +59,10 @@ alc<-mutate(alc, alc_use=(Dalc+Walc)/2)
 # Make new logical column (high_use) in joined data (alc), what is TRUE for those which alc_use is >2 
 alc<-mutate(alc, high_use=alc_use>2)
 
+# Checking that the two new columns are added and everything is in order. 
+glimpse(alc)
+
+# There are 382 observations and 35 variables in the joined data table (alc), as it should be.
+
+# Save the joined data to data folder (as alc.txt). The working directory is the same (data folder), so the name of the file is enough for saving it in the correct folder.
+write.table(alc, file="alc.txt")
