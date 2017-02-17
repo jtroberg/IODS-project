@@ -89,5 +89,89 @@ boston_scaled<-dplyr::select(boston_scaled, -crim)
 # add the new categorical value to scaled data
 boston_scaled<-data.frame(boston_scaled, crime)
 
+# splitting the Boston data set to test and train sets
+# number of rows in data set
+n<-nrow(boston_scaled)
+
+# choose randomly 80% of the rows
+ind<-sample(n, size=n*0.8)
+
+# create train and test sets
+train<-boston_scaled[ind,]
+test<-boston_scaled[-ind,]
 ```
-Create a categorical variable of the crime rate in the Boston dataset (from the scaled crime rate). Use the quantiles as the break points in the categorical variable. Drop the old crime rate variable from the dataset. Divide the dataset to train and test sets, so that 80% of the data belongs to the train set. (2 points)
+
+The linear discriminant analysis is then fit to the train set. The categorical crime rate is the target variable and all the other variables in the dataset are predictor variables.
+
+```{r}
+# LDA on the train set, categorical crime rate as target variable, all other variables as predictor variables.
+lda.fit<-lda(crime~., data=train)
+
+# target class as numeric
+classes<-as.numeric(train$crime)
+
+# draw the LDA (bi)plot, arrows added
+plot(lda.fit, dimen=2, col=classes, pch=classes)
+
+```
+
+Next the crime categories are saved to test data and then the categorical crime variable is removed from the test dataset. After this prediction of the classes is made with LDA model and results are cross tabulated with the crime categories from the test set.
+From the cross tabulation, the prediction of teh model (prediction as probabilities), it seems that high prediction is the most accurate one and next is the low. Then the medium ones are not that well predicted.
+
+```{r}
+# save the crime categories from the test data
+correct_classes<-test$crime
+
+# remove the categorical crime from test data
+test<-dplyr::select(test, -crime)
+
+# precict classes with test data
+lda.pred<-predict(lda.fit, newdata=test)
+
+# cross tabulate the results
+table(correct=correct_classes, predicted=lda.pred$class)
+```
+
+Lastly, the distances between the observations are calculated and k-means algorith is run on the dataset. 
+```{r}
+# reload Boston data set
+data(Boston)
+
+# center and standardize variables
+boston_scaled<-scale(Boston)
+
+# calculate the distances between observations
+dist_eu<-dist(Boston)
+
+# k-means clustering
+km<-kmeans(dist_eu, centers=15)
+
+# plot the dataset with clusters
+pairs(Boston, col=km$cluster)
+```
+
+Based on the plot, the optimal number of clusters is 2, because then the total WCSS drops radically in the figure and the algorithm is rerun with this. The clusters are then visualized with a plot where clusters are separated with colors and results then interpreted. 
+
+```{r}
+# set.seed to prevent producing different results everytime
+set.seed(123)
+
+# calculate the distances between observations
+dist_eu<-dist(Boston)
+
+# determine the number of clusters
+k_max<-10
+
+# calculate the total WCSS
+twcss<-sapply(1:k_max, function(k){kmeans(dist_eu, k)$tot.withinss})
+
+# visualize the results
+plot(1:k_max, twcss, type='b')
+
+# k-means clustering
+km<-kmeans(dist_eu, centers=2)
+
+# plot the dataset with clusters
+pairs(Boston, col=km$cluster)
+```
+
