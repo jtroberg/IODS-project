@@ -144,6 +144,7 @@ $(document).ready(function () {
 <li><a href="#week-1">Week 1</a></li>
 <li><a href="#week-2">Week 2</a></li>
 <li><a href="#week-3">Week 3</a></li>
+<li><a href="#week-4">Week 4</a></li>
 </ul>
 </div>
 
@@ -457,6 +458,57 @@ loss_func&lt;-function(class, prob){
 #Call loss_func to cumpute the average number of wrong predictions 
 loss_func(class=alc$high_use, prob=alc$probability)</code></pre>
 <pre><code>## [1] 0.2382199</code></pre>
+<hr />
+</div>
+<div id="week-4" class="section level1">
+<h1>Week 4</h1>
+<p>In this week’s Rstudio exercise we will use the Boston data set. It has 506 objects and 14 different variables, so the dataset has 506 rows and 14 columns.</p>
+<p>The columns in Boston data set are:</p>
+<ol style="list-style-type: decimal">
+<li>crim: per capita crime rate by town</li>
+<li>zn: proportion of residential land zoned for lots over 25,000 sq.ft</li>
+<li>indus: proportion of non-retail business acres per town</li>
+<li>chas: Charles River dummy variable (= 1 if tract bounds river; 0 otherwise)</li>
+<li>nox: nitrogen oxides concentration (parts per 10 million)</li>
+<li>rm: average number of rooms per dwelling</li>
+<li>age: proportion of owner-occupied units built prior to 1940</li>
+<li>dis: weighted mean of distances to five Boston employment centres</li>
+<li>rad: index of accessibility to radial highways</li>
+<li>tax: full-value property-tax rate per $10,000</li>
+<li>ptratio: pupil-teacher ratio by town</li>
+<li>black: 1000(Bk - 0.63)^2 where Bk is the proportion of blacks by town</li>
+<li>lstat: lower status of the population (percent)</li>
+<li>medv: median value of owner-occupied homes in $1000s</li>
+</ol>
+<pre class="r"><code># Load the Boston data from MASS package
+library(MASS)</code></pre>
+<pre><code>## 
+## Attaching package: 'MASS'</code></pre>
+<pre><code>## The following object is masked from 'package:dplyr':
+## 
+##     select</code></pre>
+<pre class="r"><code>data(&quot;Boston&quot;)
+
+# Explore the structure and dimension of the data
+str(Boston)</code></pre>
+<pre><code>## 'data.frame':    506 obs. of  14 variables:
+##  $ crim   : num  0.00632 0.02731 0.02729 0.03237 0.06905 ...
+##  $ zn     : num  18 0 0 0 0 0 12.5 12.5 12.5 12.5 ...
+##  $ indus  : num  2.31 7.07 7.07 2.18 2.18 2.18 7.87 7.87 7.87 7.87 ...
+##  $ chas   : int  0 0 0 0 0 0 0 0 0 0 ...
+##  $ nox    : num  0.538 0.469 0.469 0.458 0.458 0.458 0.524 0.524 0.524 0.524 ...
+##  $ rm     : num  6.58 6.42 7.18 7 7.15 ...
+##  $ age    : num  65.2 78.9 61.1 45.8 54.2 58.7 66.6 96.1 100 85.9 ...
+##  $ dis    : num  4.09 4.97 4.97 6.06 6.06 ...
+##  $ rad    : int  1 2 2 3 3 3 5 5 5 5 ...
+##  $ tax    : num  296 242 242 222 222 222 311 311 311 311 ...
+##  $ ptratio: num  15.3 17.8 17.8 18.7 18.7 18.7 15.2 15.2 15.2 15.2 ...
+##  $ black  : num  397 397 393 395 397 ...
+##  $ lstat  : num  4.98 9.14 4.03 2.94 5.33 ...
+##  $ medv   : num  24 21.6 34.7 33.4 36.2 28.7 22.9 27.1 16.5 18.9 ...</code></pre>
+<pre class="r"><code>dim(Boston)</code></pre>
+<pre><code>## [1] 506  14</code></pre>
+<p>The structure view in table above shows that Boston data contains only numerical values.</p>
 <hr />
 </div>
 

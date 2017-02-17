@@ -1,0 +1,93 @@
+# Week 4
+
+In this week's Rstudio exercise we will use the Boston data set. It has 506 objects and 14 different variables, so the dataset has 506 rows and 14 columns.
+
+The columns in Boston data set are:
+
+1. crim: per capita crime rate by town
+2. zn: proportion of residential land zoned for lots over 25,000 sq.ft
+3. indus: proportion of non-retail business acres per town
+4. chas: Charles River dummy variable (= 1 if tract bounds river; 0 otherwise)
+5. nox: nitrogen oxides concentration (parts per 10 million)
+6. rm: average number of rooms per dwelling
+7. age: proportion of owner-occupied units built prior to 1940
+8. dis: weighted mean of distances to five Boston employment centres
+9. rad: index of accessibility to radial highways
+10. tax: full-value property-tax rate per \$10,000
+11. ptratio: pupil-teacher ratio by town
+12. black: 1000(Bk - 0.63)^2 where Bk is the proportion of blacks by town 
+13. lstat: lower status of the population (percent)
+14. medv: median value of owner-occupied homes in \$1000s
+
+
+
+```{r}
+# Load the Boston data from MASS package
+library(MASS)
+data("Boston")
+
+# Explore the structure and dimension of the data
+str(Boston)
+dim(Boston)
+```
+
+The structure view in table above shows that Boston data contains only numerical values.
+
+In the plot below, the linear correlation between variables is roughly determined with scatterplot matrix. In the diagonal line from top left to bottom right there are Boston data variables and then each variable is plotted against each other.
+
+In the next data table there are summaries of the variables. It seems that some of the variables have quite large distribution, such as crim and zn, while others are quite similar, ptratio for example. The values vary from 0 to 711, so they need to be scaled, if we wish to handle them simultaniously in the analysis. 
+
+Below these the correlation of the variables are more examined with correlation plot and visualized plot of this data. The visualized correlation plot shows nicely which variables are correlated and which are not.
+
+```{r}
+# Access to dplyr and corrplot
+library(dplyr)
+library(corrplot)
+
+# Scatterplot matrix of the variables
+pairs(Boston)
+
+# Summaries of the variables
+summary(Boston)
+
+# For correlation, a "nicer"" correlation matrix is made wit corrplot 
+cor_matrix<-cor(Boston)
+
+# Print the correlation matrix (values rounded, first 2 digits)
+cor_matrix%>%round(2)
+
+# Visualize the correlation matrix
+corrplot(cor_matrix, method="circle", type="upper", cl.pos="b", tl.pos="d", tl.cex=0.6)
+
+```
+
+The data is next standardized. The variables changed now so that values are now variating from -3.9 to 9.9. Standardization is done in the scaling so that the column means are substracted from their columns and the resulting difference is then divided with standard deviation.
+
+```{r}
+# Center and standardize variables
+boston_scaled<-scale(Boston)
+
+# Summaries of the scaled variables
+summary(boston_scaled)
+
+# Boston_scale is changed to data frame format
+boston_scaled<-as.data.frame(boston_scaled)
+
+# create a categorical variable of the crime rate 
+# Creat scaled_crim
+scaled_crim<-boston_scaled$crim
+
+# create a quantile vector of crim
+bins<-quantile(scaled_crim)
+
+# create the categorical variable ´crime´
+crime<-cut(scaled_crim, breaks=bins, include.lowest=TRUE, label=c("low", "med_low", "med_high", "high"))
+
+# remove the original crim from the dataset
+boston_scaled<-dplyr::select(boston_scaled, -crim)
+
+# add the new categorical value to scaled data
+boston_scaled<-data.frame(boston_scaled, crime)
+
+```
+Create a categorical variable of the crime rate in the Boston dataset (from the scaled crime rate). Use the quantiles as the break points in the categorical variable. Drop the old crime rate variable from the dataset. Divide the dataset to train and test sets, so that 80% of the data belongs to the train set. (2 points)
