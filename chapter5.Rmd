@@ -1,0 +1,29 @@
+# Week 5
+
+
+This week we have used the data from United Nations Development Programme, Human Development Reports ([hdr.undp.org](http://hdr.undp.org/en/content/human-development-index-hdi)). 
+
+From the reports, the two datasets of Human Development Index (HDI) and Gender Inequality Index were downloaded, combined, and some data variables were selected for this week's analysis exercise.
+
+```{r}
+# Load the human.txt data into R.
+
+human<-read.table("~/Desktop/IODS-project/data/human.txt", sep="", header=T)
+
+# Explore the structure and the dimensions of the data 
+str(human)
+dim(human)
+```
+
+In our dataset we have 155 objects and 8 variables. All the variables are recogniced as numerical, most of them have decimal values, but the GNI and Mat.Mor are integers. The chosen 8 variables from larger data set describe following things:
+
+
+1. The proportion of females divided with proportion of males with at least secondary education (Edu2.FM).
+2. The proportion of females divided with the proportion of males in the labour force. (Labo.FM)
+3. Expected years of schooling for children of school entering age (Edu.Exp)
+4. Life expectancy at birth (Life.Exp)
+5. Gross national income per capita (GNI) 
+6. Maternal mortality ratio (Mat.Mor)
+7. Adolescent birth rate (Ado.Birth)
+8. Percetange of female representatives in parliament (Parli.F)
+
