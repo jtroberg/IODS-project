@@ -15,7 +15,7 @@ str(human)
 dim(human)
 ```
 
-In our dataset we have 155 objects and 8 variables. All the variables are recogniced as numerical, most of them have decimal values, but the GNI and Mat.Mor are integers. The chosen 8 variables from larger data set describe following things:
+In our dataset we have 155 objects and 8 variables, so we have 155 rows (different countries) and 8 columns. All the variables are recogniced as numerical, most of them have decimal values, but the GNI and Mat.Mor are integers. The chosen 8 variables (column heading abbreviations) from larger data set describe following things:
 
 
 1. The proportion of females divided with proportion of males with at least secondary education (Edu2.FM).
@@ -27,3 +27,35 @@ In our dataset we have 155 objects and 8 variables. All the variables are recogn
 7. Adolescent birth rate (Ado.Birth)
 8. Percetange of female representatives in parliament (Parli.F)
 
+```{r}
+# Show a graphical overview of the data
+# Access to ggplot2 and tidyr
+library(ggplot2)
+library(tidyr)
+
+# For easier overview of the data, the data set is scaled and class changed from numeric to data frame.
+human_scaled<-scale(human)
+human_scaled<-as.data.frame(human_scaled)
+
+# Next scaled data is gathered to key-value pairs and plotted for visualization of the data.
+gather(human_scaled)%>%ggplot(aes(value))+facet_wrap("key", scales="free_y", )+geom_histogram(bins=155, col="darkblue")+xlim(-6,6)
+
+# To see how scaling affected another histograms are made for the original data.
+gather(human)%>%ggplot(aes(value))+facet_wrap("key", scales="free", )+geom_histogram(bins=155, col="darkred")
+
+
+```
+
+From the blue histograms (scaled values) it is perhaps easier to see, which variables are normally distributed, and which are not. Ado.Birth, GNI and Mat.Mor are not following the normal distribution. From red histograms (not-scaled histograms) it is obvious that dataset doesn't have negative values, which makes sense, because none of the variables in the data table can have negative value. 
+
+The summary tables below are first for not-scaled data and the next one is for the scaled data. These two tables (and histograms above) shows that largest distribution is with GNI and least distributed is Life.Exp.
+
+```{r}
+# Creating summary tables for both scaled and original human data
+summary(human)
+summary(human_scaled)
+```
+
+
+
+nd show summaries of the variables in the data. Describe and interpret the outputs, commenting on the distributions of the variables and the relationships between them. (0-2 points)
