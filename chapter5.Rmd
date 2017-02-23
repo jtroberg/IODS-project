@@ -70,3 +70,25 @@ cor(human)%>%corrplot(order ="hclust", method="color", type="lower")
 
 ```
 
+The not standardized human data is then analyzed with PCA (principal component analysis). The variability of this data is almost completely from component 1 (99.99% of variability) and the second component (orthologonal to PC1) makes the 0.01% variation in the data. The other principal components don't have importance in terms of captured variance. So, we have the two principal components (uncorrelated variables) which will capture the highest variation. The angles of arrows, however, are all looking the same, so this is not giving us much information about the correlation, because all the arrows are small angle with PC1 axis, meaning that the correlation is high between the features and PC1. The length of the arrow represents the standard deviation of the feature. 
+
+```{r}
+# Perform principal component analysis on the not standardized human data (with the SVD method)
+pca_human<-prcomp(human)
+
+# Create and print summary of pca_human
+s<-summary(pca_human)
+s
+
+# Rounded percentages of variance captured by each PC, print them out
+pca_pr<-round(1*s$importance[2,]*100, digits=2)
+pca_pr
+
+# Create object pc_lab to be used as axis labels
+pc_lab<-paste0(names(pca_pr), "(", pca_pr, "%)")
+
+# Draw a biplot (and suppress warnings for zero-lenght arrows)
+suppressWarnings(biplot(pca_human, cex=c(0.8,1), col=c("grey40", "deeppink2"), xlab=pc_lab, ylab=NA, main="Biplot using not standardized human data"))
+
+```
+
