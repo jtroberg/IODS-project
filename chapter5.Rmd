@@ -48,7 +48,7 @@ gather(human)%>%ggplot(aes(value))+facet_wrap("key", scales="free", )+geom_histo
 
 From the blue histograms (scaled values) it is perhaps easier to see, which variables are normally distributed, and which are not. Ado.Birth, GNI and Mat.Mor are not following the normal distribution. From red histograms (not-scaled histograms) it is obvious that dataset doesn't have negative values, which makes sense, because none of the variables in the data table can have negative value. 
 
-The summary tables below are first for not-scaled data and the next one is for the scaled data. These two tables (and histograms above) shows that largest distribution is with GNI and least distributed is Life.Exp.
+The summary tables below are first for not-scaled data and the next one is for the scaled data. These two tables (and histograms above) show that largest distribution is with GNI variable and least distributed is Life.Exp.
 
 ```{r}
 # Creating summary tables for both scaled and original human data
@@ -56,6 +56,17 @@ summary(human)
 summary(human_scaled)
 ```
 
+The relationships between variables can be visualized by creating correlation plot. In this first correlation plot below, the distribution of the data variables is again visible in the middle of the plot (from higher left to lower bottom). The highest correlation value can be seen between variables Life.Exp and Edu.Exp. This is positively correlated, so in countries where expected years of schooling is high, the life expectancy is high also. Negatively correlated is the Mat.Mor and Life.Exp, so in those places, where life expectancy is high, the maternal mortality ratio is low. Least correlated were Edu2.FM and Labo.FM, so the proportion of females divided with proportion of males with at least secondary education and the proportion of females divided with the proportion of males in the labour force were not correlated. The same observations can be seen from the second correlation plot below.
 
+```{r}
+# Access GGally and corrplot
+library(GGally)
+library(corrplot)
+# Visualize data variables with ggpairs()
+ggpairs(human)
 
-nd show summaries of the variables in the data. Describe and interpret the outputs, commenting on the distributions of the variables and the relationships between them. (0-2 points)
+# Compute correlation matrix and visualize it with corrplot()
+cor(human)%>%corrplot(order ="hclust", method="color", type="lower")
+
+```
+
