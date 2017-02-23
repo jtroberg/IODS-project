@@ -92,3 +92,25 @@ suppressWarnings(biplot(pca_human, cex=c(0.8,1), col=c("grey40", "deeppink2"), x
 
 ```
 
+Next the PCA is done for the standardized variables. Now we can get more principal components. Comparing not-standardized and standardized PCAs, it is clear that PCA is sensitive to the scaling of original values, assuming that features that have larger variance are more important. From this standardized biplot it is clearly visible that Labo.FM and Parli.F are their own group, as well Mat.Mor and Ado.Birth are, and all the rest 4 variables are in the grouped on the left side of this biplot. So this means that maternal mortality ratio and 
+adolescent birth rate are somehow related onto similar features and they are quite opposite of the high life expectancy at birth, expected years of schooling for children of school entering age, gross national income per capita and the proportion of females divided with proportion of males with at least secondary education. In other words, if we think about countries, those countries are more left which have higher education (also for girls), population health, and their people have more money to use. On the right are the countries which have higher mortality ratio for mother in childbirth and under aged girls are becoming mothers. On the top there are countries with larger number proportion of females in work life or having place in the parlament, while below part of the biplot there are less females than males in the parlament and work.
+
+
+```{r}
+# Perform principal component analysis on the not standardized human data (with the SVD method)
+pca_human_scaled<-prcomp(human_scaled)
+
+# Create and print summary of pca_human
+s_s<-summary(pca_human_scaled)
+s_s
+
+# Rounded percentages of variance captured by each PC, print them out
+pca_pr2<-round(1*s_s$importance[2,]*100, digits=1)
+pca_pr2
+
+# Create object pc_lab to be used as axis labels
+pc_lab<-paste0(names(pca_pr2), "(", pca_pr2, "%)")
+
+# Draw a biplot (and suppress warnings for zero-lenght arrows)
+suppressWarnings(biplot(pca_human_scaled, cex=c(0.8,1), col=c("grey40", "deeppink2"), xlab=pc_lab, ylab=NA, main="Biplot using standardized human data"))
+```
