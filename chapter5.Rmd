@@ -139,22 +139,22 @@ summary(tea)
 str(tea)
 ```
 
-In above there is a structure of tea data. It has the 300 objects and 36 variables as it should have. The questions are the columns in the data set and they are factors with 2 or more levels  meaning that the individuals need to choose the answer from given 2 or more options. Only difference is the age, where the answer needs to be integer.
+In above there is a structure of tea data. It has the 300 objects and 36 variables, as it should have. The questions are the columns in the data set and they are factors with 2 or more levels  meaning that the individuals need to choose the answer from given 2 or more options. Only difference is the age, where the answer needs to be integer.
 
 If we first take a look at those 18 first questions about how individuals have their tea. The first group of bar plots is about these questions. Then next six are personal questions and about the age group and frequency of having tea, and lastly group of 12 bar plots are about the product's perception.
 
 ```{r Data divided into 3 groups}
-# Dividing data for groups for analysis (tea_how, personal, perception)
+# Dividing data for groups for analysis (tea_how, personal information, perception)
 keep_columns1<-c("breakfast", "tea.time", "evening", "lunch","dinner","always","home","work","tearoom","friends","resto","pub","Tea","How","sugar","how","where","price")
 keep_columns2<-c("age","sex", "SPC","Sport","age_Q","frequency")
 keep_columns3<-c("escape.exoticism", "spirituality", "healthy", "diuretic", "friendliness", "iron.absorption", "feminine", "sophisticated", "slimming", "exciting", "relaxing")
 
-tea_how<-select(tea, one_of(keep_columns1))
-tea_inf<-select(tea, one_of(keep_columns2))
-tea_per<-select(tea, one_of(keep_columns3))
+tea_how<-dplyr::select(tea, one_of(keep_columns1))
+tea_inf<-dplyr::select(tea, one_of(keep_columns2))
+tea_per<-dplyr::select(tea, one_of(keep_columns3))
 
 # visualize the how dataset (and suppress some warnings)
-suppressWarnings(gather(tea_how)%>%ggplot(aes(value))+facet_wrap("key", scales="free")+geom_bar(fill="darkblue")+theme(axis.text.x=element_text(angle=45, hjust=1, size=7), axis.text.y=element_text(hjust=1, size=6), axis.title.x = element_blank(), axis.title.y=element_blank()))
+suppressWarnings(gather(tea_how)%>%ggplot(aes(value))+facet_wrap("key", nrow=3, scales="free")+geom_bar(fill="darkblue")+theme(axis.text.x=element_text(angle=45, hjust=1, size=7), axis.text.y=element_text(hjust=1, size=6), axis.title.x = element_blank(), axis.title.y=element_blank()))
 
 suppressWarnings(gather(tea_inf)%>%ggplot(aes(value))+facet_wrap("key", scales="free")+geom_bar(fill="darkred")+theme(axis.text.x=element_text(angle=90, hjust=1, size=7), axis.text.y=element_text(hjust=1, size=6), axis.title.x = element_blank(), axis.title.y=element_blank()))
 
@@ -162,7 +162,8 @@ suppressWarnings(gather(tea_per)%>%ggplot(aes(value))+facet_wrap("key", scales="
 
 ```
 
- Then do Multiple Correspondence Analysis on the tea data (or to a certain columns of the data, it’s up to you). Interpret the results of the MCA and draw at least the variable biplot of the analysis. You can also explore other plotting options for MCA. Comment on the output of the plots. 
+Then Multiple Correspondence Analysis is done for the whole tea data. First there is the summary of the mca and then two separate variable biplots.
+
 ```{r MCA on whole tea data} 
 # MCA for tea_how, having 
 mca_tea<-MCA(tea, quanti.sup=19, quali.sup=20:36, graph=F)
